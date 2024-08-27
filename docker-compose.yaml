@@ -11,5 +11,7 @@ services:
     k6:
         image: loadimpact/k6
         container_name: k6
+        extra_hosts:
+            - host.docker.internal:host-gateway
         volumes:
             - ./scripts:/scripts
