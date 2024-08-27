@@ -8,3 +8,8 @@ services:
             - ./docker_services_data/redis_data:/data
             - ./config/redis.conf:/redis.conf
         command: redis-server /redis.conf
+    k6:
+        image: loadimpact/k6
+        container_name: k6
+        volumes:
+            - ./scripts:/scripts
