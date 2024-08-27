@@ -10,7 +10,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		time.Sleep(time.Millisecond * 30)
+		time.Sleep(time.Millisecond * 10)
 		return c.SendString("Hello WOrld")
 	})
 
