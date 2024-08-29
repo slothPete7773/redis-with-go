@@ -37,3 +37,13 @@ services:
             - 3000:3000
         volumes:
             - ./docker_services_data/grafana:/var/lib/grafana
+    mariadb:
+        image: mariadb
+        container_name: mariadb
+        environment:
+            - MARIADB_ROOT_PASSWORD=mariadb
+            - MARIADB_DATABASE=mariadb
+        ports:
+            - 3306:3306
+        volumes:
+            - ./docker_services_data/mariadb/:/var/lib/mysql

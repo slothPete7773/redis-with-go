@@ -42,7 +42,7 @@ func mockData(db *gorm.DB) error {
 	return db.Create(&products).Error
 }
 
-func (p productRepositoryDB) GetProducts() ([]product, error) {
-
-	return nil, nil
+func (p productRepositoryDB) GetProducts() (products []product, err error) {
+	err = p.db.Order("quantity Desc").Limit(10).Find(&products).Error
+	return products, err
 }
