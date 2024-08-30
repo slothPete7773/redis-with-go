@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"go-redis-k6/handler"
 	"go-redis-k6/repository"
 	"go-redis-k6/service"
 
 	// "github.com/go-sql-driver/mysql"
 	// _ "gorm.io/driver/mysql"
 	"github.com/go-redis/redis/v8"
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -19,24 +20,17 @@ func main() {
 
 	// productRepo := repository.NewProductDB(db)
 	productRepo := repository.NewProductDB(db)
-	productService := service.NewCatalogServiceRedis(productRepo, redisDb)
+	// productService := service.NewCatalogServiceRedis(productRepo, redisDb)
+	productService := service.NewCatalogService(productRepo)
 	// _ = productRepo
-	products, err := productService.GetProducts()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	// productHandler := handler.NewCatalogHandler(productService)
+	productHandler := handler.NewCatalogHandlerRedis(productService, redisDb)
 
-	fmt.Printf("Products: %v", products)
+	app := fiber.New()
 
-	// app := fiber.New()
+	app.Get("/products", productHandler.GetProducts)
 
-	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	time.Sleep(time.Millisecond * 10)
-	// 	return c.SendString("Hello WOrld")
-	// })
-
-	// app.Listen(":8000")
+	app.Listen(":8000")
 }
 
 func init() {
